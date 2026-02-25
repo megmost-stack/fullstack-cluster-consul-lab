@@ -1,0 +1,26 @@
+name: fullstack-db
+services:
+  db:
+    image: postgres:15-alpine
+    restart: always
+    environment:
+      POSTGRES_USER: ${DB_USER:-postgres}
+      POSTGRES_PASSWORD: ${DB_PASSWORD:-geheim}
+      POSTGRES_DB: ${DB_NAME:-fullstack}
+      SERVICE_NAME: postgres-db # Wichtig für Registrator!
+    volumes:
+      - db_data:/var/lib/postgresql/data
+      - ./init-db:/docker-entrypoint-initdb.d  
+    ports:
+      - "5432:5432" # Wir mappen den Port auf den Node 2
+
+  adminer:
+    image: adminer:latest
+    restart: always
+    environment:
+      SERVICE_NAME: adminer
+    ports:
+      - "8080:8080" # Adminer auf Node 2 unter Port 8080
+
+volumes:
+  db_data:

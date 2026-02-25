@@ -1,0 +1,10 @@
+services:
+  gateway:
+    build: ./gateway
+    container_name: nginx-gateway  
+    environment:
+      SERVICE_NAME: gateway
+      SERVICE_TAGS: reverse-proxy,ui
+    ports:
+      - "80:80"
+    restart: always

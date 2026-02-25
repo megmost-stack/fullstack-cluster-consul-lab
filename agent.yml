@@ -1,0 +1,11 @@
+name: fullstack-infra-agent
+version: '3.8'
+services:
+# Der Spion: Meldet deine anderen Container automatisch bei Consul an
+  registrator:
+    image: gliderlabs/registrator:master
+    volumes:
+      - /var/run/docker.sock:/tmp/docker.sock # Erlaubt dem Spion, Docker zuzusehen
+    #command: "-internal consul://172.28.0.10:8500"
+    command: "-ip 172.18.0.3 consul://172.18.0.2:8500"
+    restart: always

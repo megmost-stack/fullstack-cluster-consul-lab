@@ -1,0 +1,41 @@
+name: fullstack-lab
+services:
+  backend:
+    build: ./backend
+    restart: always
+    dns:
+      - 172.18.0.2 # Die IP von Consul (Node-01) als DNS-Server!
+    environment:
+      DB_HOST: postgres-db.service.consul
+      DB_PORT: ${DB_PORT}
+      DB_USER: ${DB_USER}
+      DB_PASSWORD: ${DB_PASSWORD}
+      DB_NAME: ${DB_NAME}
+      SERVICE_NAME: backend #important for consul registor
+    networks:
+      - backend_net
+    ports:
+      - "3000:3000"
+    healthcheck:
+      test: ["CMD-SHELL", "wget -q --spider http://localhost:3000/health || exit 1"]
+      interval: 10s
+      timeout: 3s
+      retries: 3
+
+  frontend:
+    build: ./frontend
+    restart: always
+    dns:
+      - 172.18.0.2 # Die IP von Consul (Node-01) als DNS-Server!
+    environment:
+      SERVICE_NAME: frontend #important for consul registor
+    networks:
+      - frontend_net
+    ports:
+      - "80:80" # Damit Node-01 es unter der Node-IP erreichen kann
+
+networks:
+  backend_net:
+    driver: bridge
+  frontend_net:
+    driver: bridge
