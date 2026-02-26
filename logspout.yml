@@ -1,0 +1,9 @@
+services:
+  logspout:
+    image: gliderlabs/logspout:latest
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    command: "syslog://172.18.0.2:514"
+    environment:
+      EXCLUDE_LABEL: "logspoutExclude"
+    restart: always

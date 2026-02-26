@@ -9,13 +9,14 @@ services:
       - "8600:8600/udp"
       - "8600:8600/tcp"
     restart: always
-
-  registrator:
-    image: gliderlabs/registrator:master
-    volumes:
-      - /var/run/docker.sock:/tmp/docker.sock
-    # Hier nutzen wir localhost, weil Registrator und Consul in der gleichen Node sind
-    command: "-internal consul://172.18.0.2:8500"
+ 
+  log-collector:
+    image: my-log-collector
+    network_mode: "host"  
+    labels:
+      - "logspout.exclude=true"  # Das ist die Lebensversicherung!
+      #ports:
+      #- "514:514/udp"
+    environment:
+      SERVICE_NAME: log-collector
     restart: always
-    depends_on:
-      - consul
