@@ -1,6 +1,7 @@
 # Multi-Node Docker-in-Docker Cluster mit Consul & Logging
 Dieses Projekt baut eine Fullstack-Umgebung auf vier virtuellen Docker-Nodes (Docker-in-Docker) innerhalb einer Multipass-VM auf. Es nutzt Consul für Service Discovery, Nginx als zentrales Gateway und einen zentralen Log-Collector.
 ## 📁 Projektstruktur
+Plaintext
 .
 ├── infra.yml               # Consul & Log-Collector (Node 01)
 ├── gateway.yml             # Nginx Gateway & Config (Node 01)
